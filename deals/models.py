@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+class Deal(models.Model):
+    customer = models.CharField(max_length=30)
+    item = models.CharField(max_length=50)
+    total = models.IntegerField(max_length=10)
+    quantity = models.IntegerField()
+    date = models.DateTimeField()
+
+    class Meta:
+        db_table = 'deals'
+        verbose_name = 'Deal'
+        verbose_name_plural = 'Deals'
