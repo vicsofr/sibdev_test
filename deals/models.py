@@ -4,7 +4,7 @@ from django.db import models
 class Deal(models.Model):
     customer = models.CharField(max_length=30)
     item = models.CharField(max_length=50)
-    total = models.IntegerField(max_length=10)
+    total = models.IntegerField()
     quantity = models.IntegerField()
     date = models.DateTimeField()
 
