@@ -1,22 +1,21 @@
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView
-from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from deals.models import Deal
-from deals.serializers.upload_deals_csv import UploadDealsCsvSerializer
+from deals.serializers.post_deals_csv import UploadDealsCsvSerializer
 from deals.utils import deals_to_model
 
 
-class UploadDealsCsvView(CreateAPIView, CreateModelMixin):
+class UploadDealsCsvView(APIView):
     serializer_class = UploadDealsCsvSerializer
-    http_allowed_methods = ['POST']
+    http_allowed_methods = ('POST',)
     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """
         POST method /deals/upload_deals_csv.
-        Uploads csv-file with all
+        When called truncates 'deals' table and uploads attached csv-file data in there
         """
         serializer = self.serializer_class(data=request.data)
 
