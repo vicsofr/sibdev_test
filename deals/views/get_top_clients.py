@@ -34,7 +34,12 @@ class GetTopClientsView(APIView):
         When called shows information about 5 users with the largest sum of 'total' and list of a gems that been bought
         by them and at least one other client
         """
-        serialized_data = self.serializer_class(self.get_queryset(), many=True).data
+        queryset = self.get_queryset()
+        if not queryset:
+            return Response({"status": "error", "description": "No data about deals. Use POST /post_deals_csv to upload"
+                                                               "data"})
+
+        serialized_data = self.serializer_class(queryset, many=True).data
         serialized_gems_list = [client['gems'] for client in serialized_data]
 
         changed_gems_list = gems_by_two_more_clients(serialized_gems_list)
