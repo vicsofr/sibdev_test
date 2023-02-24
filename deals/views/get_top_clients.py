@@ -36,8 +36,8 @@ class GetTopClientsView(APIView):
         """
         queryset = self.get_queryset()
         if not queryset:
-            return Response({"status": "error", "description": "No data about deals. Use POST /post_deals_csv to upload"
-                                                               "data"})
+            return Response({"status": "error", "description": "No data about clients deals. Use POST /post_deals_csv "
+                                                               "to upload data"})
 
         serialized_data = self.serializer_class(queryset, many=True).data
         serialized_gems_list = [client['gems'] for client in serialized_data]
@@ -49,7 +49,6 @@ class GetTopClientsView(APIView):
 
         return Response(
             {
-                "result": "success",
-                "top_5_clients": serialized_data,
+                "response": serialized_data,
             }
         )
