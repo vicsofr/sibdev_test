@@ -1,5 +1,8 @@
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import Sum, F
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +14,7 @@ from deals.utils import gems_by_two_more_clients
 
 class GetTopClientsView(APIView):
     serializer_class = GetTopClientsSerializer
-    http_allowed_methods = ('GET',)
+    http_allowed_methods = ['GET']
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
@@ -28,6 +31,7 @@ class GetTopClientsView(APIView):
         )
         return top_5[:5]
 
+    @method_decorator(cache_page(60 * 5))
     def get(self, request):
         """
         GET method /deals/get_top_clients
@@ -36,8 +40,12 @@ class GetTopClientsView(APIView):
         """
         queryset = self.get_queryset()
         if not queryset:
-            return Response({"status": "error", "description": "No data about clients deals. Use POST /post_deals_csv "
-                                                               "to upload data"})
+            return Response(
+                {
+                    "status": "error",
+                    "description": "No data about clients deals. Use POST /post_deals_csv to upload data"
+                }
+            )
 
         serialized_data = self.serializer_class(queryset, many=True).data
         serialized_gems_list = [client['gems'] for client in serialized_data]

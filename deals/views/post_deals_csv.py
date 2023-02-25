@@ -20,7 +20,12 @@ class UploadDealsCsvView(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if not serializer.is_valid():
-            return Response({"status": "error", "description": serializer.errors})
+            return Response(
+                {
+                    "status": "error",
+                    "description": serializer.errors
+                }
+            )
 
         deals_list = serializer.validated_data.pop('deals')
         deals_for_insert = deals_to_model(deals_list)
