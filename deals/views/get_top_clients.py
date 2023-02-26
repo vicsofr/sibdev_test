@@ -1,7 +1,6 @@
+from django.core.cache import cache
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import Sum, F
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -31,7 +30,6 @@ class GetTopClientsView(APIView):
         )
         return top_5[:5]
 
-    @method_decorator(cache_page(60 * 5))
     def get(self, request):
         """
         GET method /deals/get_top_clients

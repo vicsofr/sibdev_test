@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +49,30 @@ CACHES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'handlers': {
+        'consoleOut': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+            'stream': sys.stdout,
+        },
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['consoleOut', ],
+        },
+        # "django.db.backends": {"level": "DEBUG", "handlers": ["consoleOut"]},
+    },
+}
+
 ROOT_URLCONF = 'sibdev_test.urls'
 
 TEMPLATES = [
@@ -67,7 +92,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sibdev_test.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

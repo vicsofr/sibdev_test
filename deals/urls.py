@@ -5,6 +5,6 @@ from deals.views.post_deals_csv import UploadDealsCsvView
 
 
 urlpatterns = [
-    path('upload_deals_csv/', UploadDealsCsvView.as_view()),
+    path('post_deals_csv/', UploadDealsCsvView.as_view()),
     path('get_top_clients/', GetTopClientsView.as_view()),
 ]
