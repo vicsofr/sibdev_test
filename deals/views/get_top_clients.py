@@ -1,10 +1,9 @@
-from django.core.cache import cache
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import permissions
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import Sum, F
-
-from rest_framework import permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.core.cache import cache
 
 from deals.models import Deal
 from deals.serializers.get_top_clients import GetTopClientsSerializer
@@ -38,25 +37,31 @@ class GetTopClientsView(APIView):
         When called shows information about 5 users with the largest sum of 'total' and list of a gems that been bought
         by them and at least one other client
         """
-        queryset = self.get_queryset()
-        if not queryset:
-            return Response(
-                {
-                    "status": "error",
-                    "description": "No data about clients deals. Use POST /post_deals_csv to upload data"
-                }
-            )
+        response = cache.get('top_clients')
 
-        serialized_data = self.serializer_class(queryset, many=True).data
-        serialized_gems_list = [client['gems'] for client in serialized_data]
+        if not response:
+            queryset = self.get_queryset()
+            if not queryset:
+                return Response(
+                    {
+                        "status": "error",
+                        "description": "No data about clients deals. Use POST /post_deals_csv to upload data"
+                    }
+                )
 
-        changed_gems_list = gems_by_two_more_clients(serialized_gems_list)
+            serialized_data = self.serializer_class(queryset, many=True).data
+            serialized_gems_list = [client['gems'] for client in serialized_data]
 
-        for number, client in enumerate(serialized_data):
-            client['gems'] = changed_gems_list[number]
+            changed_gems_list = gems_by_two_more_clients(serialized_gems_list)
+
+            for number, client in enumerate(serialized_data):
+                client['gems'] = changed_gems_list[number]
+
+            response = serialized_data
+            cache.set('top_clients', response)
 
         return Response(
             {
-                "response": serialized_data,
+                "response": response,
             }
         )
