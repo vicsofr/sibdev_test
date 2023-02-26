@@ -7,6 +7,7 @@ class Deal(models.Model):
     total = models.IntegerField()
     quantity = models.IntegerField()
     date = models.DateTimeField()
+    last_parse = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'deals'
