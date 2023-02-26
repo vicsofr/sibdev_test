@@ -66,7 +66,7 @@ LOGGING = {
             'level': 'INFO',
             'handlers': ['consoleOut', ],
         },
-        "django.db.backends": {"level": "DEBUG", "handlers": ["consoleOut"]},
+        # "django.db.backends": {"level": "DEBUG", "handlers": ["consoleOut"]},
     },
 }
 
