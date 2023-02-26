@@ -15,7 +15,7 @@ class UploadDealsCsvView(APIView):
     def post(self, request):
         """
         POST method /deals/upload_deals_csv.
-        When called truncates 'deals' table and uploads attached csv-file data in there
+        When called uploads attached csv-file data in deals table and setting 'last_parse' = False to previous uploads
         """
         serializer = self.serializer_class(data=request.data)
 
@@ -30,7 +30,7 @@ class UploadDealsCsvView(APIView):
         deals_list = serializer.validated_data.pop('deals')
         deals_for_insert = deals_to_model(deals_list)
 
-        Deal.objects.all().delete()
+        Deal.objects.all().update(last_parse=False)
         Deal.objects.bulk_create(deals_for_insert)
 
         return Response(

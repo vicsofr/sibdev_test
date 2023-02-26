@@ -19,7 +19,9 @@ class GetTopClientsView(APIView):
     @staticmethod
     def get_queryset():
         """Get queryset of 5 clients with the largest sum of 'total' and list of a gems they bought"""
-        top_5 = Deal.objects.values(
+        top_5 = Deal.objects.filter(
+            last_parse=True
+        ).values(
             'customer'
         ).annotate(
             username=F('customer'),
