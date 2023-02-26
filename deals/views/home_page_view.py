@@ -1,5 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+
+from sibdev_test.settings import BASE_URL
 
 
 def home_page_view(request):
-    return render(request, 'home.html')
+    """
+    Home page view with links to APIs
+    """
+    context = {
+        "post_deals_csv_url": f"{BASE_URL}/deals/post_deals_csv",
+        "get_top_clients_url": f"{BASE_URL}/deals/get_top_clients",
+    }
+    return render(request, 'home.html', context=context)
