@@ -75,7 +75,7 @@ ROOT_URLCONF = 'sibdev_test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['deals/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
