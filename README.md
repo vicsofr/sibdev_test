@@ -12,6 +12,7 @@ Framework. Запускается в Docker + docker-compose, для хране�
 ```shell script
 docker-compose up
 ```
+- *для просмотра запросов к БД - раскомментировать строку №69 в sibdev_test/settings.py*
 
 ## Описание API
 #### 1. [*[POST] /post_deals_csv*](http://0.0.0.0:8000/deals/post_deals_csv) - ссылка
