@@ -70,7 +70,7 @@ LOGGING = {
     },
 }
 
-ROOT_URLCONF = 'sibdev_test.urls'
+ROOT_URLCONF = 'deals_test.urls'
 
 TEMPLATES = [
     {
@@ -88,7 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sibdev_test.wsgi.application'
+WSGI_APPLICATION = 'deals_test.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

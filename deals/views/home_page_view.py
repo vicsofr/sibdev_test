@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from sibdev_test.settings import BASE_URL
+from deals_test.settings import BASE_URL
 
 
 def home_page_view(request):
